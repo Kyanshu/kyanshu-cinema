@@ -1,0 +1,12 @@
+KYANSHUCINEMA V1.9 — INSTALLATION SÉCURISÉE
+
+1. Le ZIP PUBLIC contient seulement le code de l’application, les icônes et le manifeste. Il peut être publié sur le dépôt GitHub public kyanshu-cinema.
+2. NE JAMAIS PUBLIER le fichier KyanshuCinema_CATALOGUE_PRIVE_1311_FILMS.json, les sauvegardes JSON, ni une clé API TMDB sur GitHub.
+3. Une fois GitHub Pages activé, ouvrir le site dans Safari sur l’iPhone, puis « Ajouter à l’écran d’accueil ».
+4. Sur chaque appareil, cliquer « Importer mon catalogue privé » et sélectionner le JSON privé transféré directement (AirDrop, Fichiers, etc.).
+5. Importer ensuite l’ancienne sauvegarde V1.8 pour récupérer les modifications existantes (zones, pistes audio, affiches personnalisées).
+6. Le bouton « Sauvegarde complète » exporte catalogue + modifications pour transfert ou restauration future. Les clés TMDB et les adresses d’affiches TMDB en cache ne sont pas incluses : saisir la clé directement sur chaque appareil.
+7. Le catalogue est conservé localement dans le stockage du navigateur : éviter de vider les données Safari et garder des sauvegardes hors de l’appareil.
+8. Les images TMDB nécessitent Internet ; les images personnalisées intégrées aux sauvegardes peuvent occuper beaucoup de place. L’app n’offre pas de synchronisation automatique entre appareils.
+
+IMPORTANT : cette V1.9 est une première version de migration. Tester le catalogue et la restauration sur iMac AVANT de publier, puis sur iPhone. Ne jamais supprimer les sauvegardes originales.
