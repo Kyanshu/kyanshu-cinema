@@ -314,6 +314,17 @@ async function start(){toolbar();document.querySelector('.backupbar #importCatal
 }
 async function signedIn(user){cloudUser=user;$c('cloudPassword').value='';$c('cloudGate').hidden=true;$c('cloudIdentity').textContent=user.email||'';await loadAll()}
 window.kyanshuPhotoUrl=photoUrl;
+// Sur iPhone, Entrée ferme le clavier dans les champs de recherche uniquement.
+// Le champ TMDB conserve son gestionnaire existant qui lance la recherche.
+for(const id of ['q','addQuery']){
+ const input=document.getElementById(id);
+ input.addEventListener('keydown',event=>{
+  if(event.key==='Enter' && !event.isComposing){
+   if(id==='q')event.preventDefault();
+   input.blur();
+  }
+ });
+}
 start();
 })();
 </script></body></html>
