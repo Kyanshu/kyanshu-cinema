@@ -11,8 +11,10 @@
 /* V1.7 : fiches détaillées plus lisibles */
 .detail-media{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:12px 0 18px}.detail-media .format-pill{padding:8px 12px;border-radius:9px;background:#49365f;color:#f4e8ff;font-weight:800}.detail-media .region-pill{display:flex;align-items:center;padding:7px 12px;border:1px solid #bca4e6;border-radius:9px;color:#efe5ff;font-weight:750}.detail-media .region-icon{width:28px;height:28px;border:1.5px solid #bca4e6;border-radius:50%;display:grid;place-items:center;font-size:17px}.detail-media .region-icon.bluray{border-radius:8px;transform:rotate(0deg)}.audio-list{display:grid;gap:7px;margin:8px 0 16px;padding:0;list-style:none}.audio-list li{border:1px solid #51465e;border-radius:9px;padding:9px 12px;background:#242030;line-height:1.45}.audio-list .audio-language{font-weight:750;color:#f6e7ff}.audio-list .audio-format{color:#c8bfd5}.detail-section-title{margin:16px 0 5px;font-size:16px;color:#e6d8fb}.backup-hint{font-size:12px;color:#bdb2cf;margin-top:5px}
 </style><style>
+.edition-gallery{max-width:450px}.edition-gallery-stage{display:flex;align-items:center;gap:8px}.edition-gallery-stage .gallery-image{width:min(100%,360px);max-height:450px;object-fit:contain;border-radius:10px;min-width:0}.edition-gallery-stage button{padding:8px;flex:none}.gallery-count{margin:9px 0}.gallery-thumbs{display:flex;gap:7px;flex-wrap:wrap}.gallery-thumbs button{padding:3px;border-radius:8px}.gallery-thumbs button[aria-pressed="true"]{border-color:#c4a4ff;background:#5a417c}.gallery-thumbs img{width:55px;height:75px;object-fit:contain;display:block}
+</style><style>
 #cloudGate{position:fixed;inset:0;z-index:100;background:#101019;display:flex;align-items:center;justify-content:center;padding:18px}#cloudGate[hidden]{display:none}#cloudGate .panel{max-width:430px;width:100%;padding:26px;background:#242037;border:1px solid #484255;border-radius:18px}#cloudGate input{width:100%;margin:8px 0;min-width:0}#cloudGate button{width:100%;background:#7658c6;margin-top:10px}.cloudbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}.cloudbar button.primary{background:#6752a5}.cloudbar small{color:#c4bfd1}.cloudbar button{padding:9px 12px}#addDialog{max-width:650px;width:calc(100% - 24px);border-radius:16px;border:1px solid #5b5268;background:#211e2c;color:#fff;padding:22px;max-height:90vh;overflow:auto}#addDialog::backdrop{background:#000b}#addDialog input,#addDialog select,#addDialog textarea{width:100%;margin:5px 0 12px;min-width:0}#addDialog label{display:block;margin-top:8px}#addDialog .hit{display:flex;gap:12px;width:100%;text-align:left;align-items:center;margin:7px 0}#addDialog .hit img{width:45px;height:68px;object-fit:cover}#addDialog .actions{display:flex;gap:10px;flex-wrap:wrap}#addDialog .actions button{flex:1}#addDialog textarea{min-height:70px}#addDialog .muted{color:#c4bfd1;font-size:.9rem}
-</style></head><body><header><h1>🎬 Ma Cinémathèque</h1><p>V2.1 · Cinémathèque synchronisée</p></header><main class="wrap"><div class="toolbar"><input id="q" type="search" placeholder="Rechercher dans la collection…" aria-label="Rechercher"><select id="searchfield" aria-label="Champ de recherche"><option value="all">Tous les champs</option><option value="title">Titre</option><option value="director">Réalisateur</option><option value="actors">Acteurs / Actrices</option><option value="studio">Studio</option></select><select id="format" aria-label="Format"><option value="">Tous les formats</option><option>DVD</option><option>Blu-ray</option><option>4K Ultra HD</option><option value="none">Non renseigné</option></select><select id="sort" aria-label="Tri"><option value="title">Titre A → Z</option><option value="yearDesc">Année récente</option><option value="yearAsc">Année ancienne</option></select></div><div class="view-switch" role="group" aria-label="Mode d’affichage"><button type="button" data-view="list" aria-pressed="false">☰ Liste</button><button type="button" data-view="posters" aria-pressed="false">▣ Affiches</button></div><details class="settings"><summary>🖼️ Activer les véritables affiches (TMDB)</summary><p>Les affiches proviennent de The Movie Database (TMDB). Il faut une clé API personnelle gratuite. Elle est conservée seulement dans ce navigateur. L'application envoie les recherches à TMDB uniquement après ton activation. Les coffrets sans film identifié restent sans image.</p><div class="controls"><input id="tmdbkey" type="password" autocomplete="off" placeholder="Clé API TMDB (v3)"><button type="button" id="savekey">Activer les affiches</button><button type="button" id="clearkey">Désactiver</button></div><p id="image-status" class="status"></p></details><p class="view-note" id="viewnote"></p><div class="backupbar"><button id="importCatalog" type="button">📁 Importer mon catalogue privé</button><input type="file" id="catalogFile" accept="application/json,.json" hidden><button id="exportBackup" type="button">⬇ Sauvegarde complète (films + modifications)</button><button id="importBackup" type="button">⬆ Restaurer une sauvegarde</button><input type="file" id="backupFile" accept="application/json,.json" hidden><span id="saveStatus" role="status">Catalogue local · Sauvegarde recommandée</span></div><p class="meta" id="count"></p><section class="grid" id="grid"></section></main><dialog id="detail"><button class="close" id="close" aria-label="Fermer">✕</button><div id="content"></div></dialog><input id="coverFile" type="file" accept="image/*" hidden><footer>Cinémathèque privée · Synchronisation Supabase après connexion</footer><script>const catalogStorage="kyanshucinema-catalog-v19";
+</style></head><body><header><h1>🎬 Ma Cinémathèque</h1><p>V2.2 test 4 · Galerie collector</p></header><main class="wrap"><div class="toolbar"><input id="q" type="search" placeholder="Rechercher dans la collection…" aria-label="Rechercher"><select id="searchfield" aria-label="Champ de recherche"><option value="all">Tous les champs</option><option value="title">Titre</option><option value="director">Réalisateur</option><option value="actors">Acteurs / Actrices</option><option value="studio">Studio</option></select><select id="format" aria-label="Format"><option value="">Tous les formats</option><option>DVD</option><option>Blu-ray</option><option>4K Ultra HD</option><option value="none">Non renseigné</option></select><select id="sort" aria-label="Tri"><option value="title">Titre A → Z</option><option value="yearDesc">Année récente</option><option value="yearAsc">Année ancienne</option></select></div><div class="view-switch" role="group" aria-label="Mode d’affichage"><button type="button" data-view="list" aria-pressed="false">☰ Liste</button><button type="button" data-view="posters" aria-pressed="false">▣ Affiches</button></div><details class="settings"><summary>🖼️ Activer les véritables affiches (TMDB)</summary><p>Les affiches proviennent de The Movie Database (TMDB). Il faut une clé API personnelle gratuite. Elle est conservée seulement dans ce navigateur. L'application envoie les recherches à TMDB uniquement après ton activation. Les coffrets sans film identifié restent sans image.</p><div class="controls"><input id="tmdbkey" type="password" autocomplete="off" placeholder="Clé API TMDB (v3)"><button type="button" id="savekey">Activer les affiches</button><button type="button" id="clearkey">Désactiver</button></div><p id="image-status" class="status"></p></details><p class="view-note" id="viewnote"></p><div class="backupbar"><button id="importCatalog" type="button">📁 Importer mon catalogue privé</button><input type="file" id="catalogFile" accept="application/json,.json" hidden><button id="exportBackup" type="button">⬇ Sauvegarde complète (films + modifications)</button><button id="importBackup" type="button">⬆ Restaurer une sauvegarde</button><input type="file" id="backupFile" accept="application/json,.json" hidden><span id="saveStatus" role="status">Catalogue local · Sauvegarde recommandée</span></div><p class="meta" id="count"></p><section class="grid" id="grid"></section></main><dialog id="detail"><button class="close" id="close" aria-label="Fermer">✕</button><div id="content"></div></dialog><input id="coverFile" type="file" accept="image/*" hidden><footer>Cinémathèque privée · Synchronisation Supabase après connexion</footer><script>const catalogStorage="kyanshucinema-catalog-v19";
 let movies=[];try{const stored=JSON.parse(localStorage.getItem(catalogStorage)||"null");if(Array.isArray(stored)&&stored.every(m=>m&&typeof m.Title==="string"&&typeof m._uid==="string"))movies=stored;}catch(e){}
 const editStorage='cinematheque-edits-v15';let edits={};let currentMovie=null;
 try{edits=JSON.parse(localStorage.getItem(editStorage)||'{}')}catch(e){edits={}}
@@ -36,14 +38,15 @@ const $=id=>document.getElementById(id);const safe=s=>String(s??'').replace(/[&<
 const posterCacheKey='cinematheque-posters-v13';const tokenKey='cinematheque-tmdb-v13';
 let posterCache={};let tmdbKey='';let posterPending=new Set();let posterQueue=[];let posterActive=0;let posterEpoch=0;
 try{posterCache=JSON.parse(localStorage.getItem(posterCacheKey)||'{}');tmdbKey=localStorage.getItem(tokenKey)||'';}catch(e){}
+function photoPreferred(m){return m.card_image_choice==='edition' && !!(window.kyanshuPhotoUrl?.(m));}
 const posterUrl=m=>cover(m);
 function updateImageStatus(){let n=Object.values(posterCache).filter(x=>x.url).length;$('image-status').textContent=tmdbKey?'Affiches activées · '+n+' images trouvées et mises en cache (adresses seulement).':'Aucune clé activée. Les images sont facultatives.';}
 function savePosterCache(){try{localStorage.setItem(posterCacheKey,JSON.stringify(posterCache))}catch(e){}}
-function updatePosterDom(id){if(!id)return;document.querySelectorAll('[data-imdb]').forEach(el=>{if(el.dataset.imdb!==id)return;if(el.dataset.custom==='yes')return;let data=posterCache[id];if(data?.url){el.classList.add('has-image');el.innerHTML='<img loading="lazy" alt="Affiche" src="'+safe(data.url)+'"><span class="fallback" aria-hidden="true">🎬</span>';}else if(data?.missing){el.innerHTML='<span class="fallback" aria-hidden="true">🎬</span>';}})}
+function updatePosterDom(id){if(!id)return;document.querySelectorAll('[data-imdb]').forEach(el=>{if(el.dataset.imdb!==id)return;if(el.dataset.custom==='yes'||el.dataset.edition==='yes')return;let data=posterCache[id];if(data?.url){el.classList.add('has-image');el.innerHTML='<img loading="lazy" alt="Affiche" src="'+safe(data.url)+'"><span class="fallback" aria-hidden="true">🎬</span>';}else if(data?.missing){el.innerHTML='<span class="fallback" aria-hidden="true">🎬</span>';}})}
 async function fetchPoster(id,epoch){try{let response=await fetch('https://api.themoviedb.org/3/find/'+encodeURIComponent(id)+'?api_key='+encodeURIComponent(tmdbKey)+'&external_source=imdb_id');if(!response.ok){if(response.status===401||response.status===403){$('image-status').textContent='Clé TMDB invalide ou accès refusé. Vérifie ta clé.';posterQueue=[];}return;}let data=await response.json();if(epoch!==posterEpoch)return;let hit=(data.movie_results||[])[0]||(data.tv_results||[])[0];posterCache[id]=hit?.poster_path?{url:'https://image.tmdb.org/t/p/w342'+hit.poster_path}:{missing:true};savePosterCache();updatePosterDom(id);updateImageStatus();}catch(e){$('image-status').textContent='Connexion aux affiches indisponible pour le moment.';}}
 function processPosterQueue(){if(!tmdbKey)return;while(posterActive<3&&posterQueue.length){let item=posterQueue.shift();if(item.epoch!==posterEpoch||posterCache[item.id]){posterPending.delete(item.id);continue;}posterActive++;fetchPoster(item.id,item.epoch).finally(()=>{posterActive--;posterPending.delete(item.id);processPosterQueue()});}}
 function queuePosters(){if(!tmdbKey||view!=='posters')return;let epoch=posterEpoch;let ids=[...document.querySelectorAll('.grid.posters .poster[data-imdb]')].map(el=>el.dataset.imdb);for(let id of ids){if(!id||posterCache[id]||posterPending.has(id))continue;posterPending.add(id);posterQueue.push({id,epoch});}processPosterQueue();}
-try{const saved=localStorage.getItem('cinematheque-view');if(['list','posters'].includes(saved))view=saved;}catch(e){}function render(){let q=normalize($('q').value.trim()),f=$('format').value,searchField=$('searchfield').value;const searchText=m=>searchField==='title'?[m.Title,m['Original Title']]:searchField==='director'?[m.Director]:searchField==='actors'?[m.Actors]:searchField==='studio'?[m.Studios,m['Production Companies']]:[m.Title,m['Original Title'],m.Director,m.Genres,m['Production Year'],m.Actors,m.Studios,m['Production Companies']];visible=movies.filter(m=>(!f||(f==='none'?!m['Disc Type']:m['Disc Type']===f))&&(!q||normalize(searchText(m).filter(Boolean).join(' ')).includes(q)));let sort=$('sort').value;visible.sort((a,b)=>sort==='title'?(a.Title||'').localeCompare(b.Title||'','fr'):sort==='yearDesc'?(+b['Production Year']||0)-(+a['Production Year']||0):(+(a['Production Year'])||9999)-(+(b['Production Year'])||9999));$('count').textContent=visible.length.toLocaleString('fr-CA')+' entrée(s) sur '+movies.length.toLocaleString('fr-CA');$('grid').className='grid '+view;$('viewnote').textContent=view==='posters'?'Affiches réelles si TMDB est activé ; sinon emplacements réservés.':'Affichage compact de toute la collection.';$('grid').innerHTML=visible.map(m=>`<button class="movie" data-id="${safe(uid(m))}"><span class="poster ${posterUrl(m)?'has-image':''}" data-imdb="${safe(m['IMDB Id']||'')}" data-custom="${edits[uid(m)]?.cover?'yes':'no'}">${posterUrl(m)?`<img loading="lazy" alt="Affiche de ${safe(m.Title)}" src="${safe(posterUrl(m))}">`:''}<span class="fallback" aria-hidden="true">🎬</span></span><strong>${safe(m.Title)}</strong><small class="year">${safe(m['Production Year']||'Année inconnue')}</small><small class="director">${safe(m.Director||'')}</small><span class="badges"><span class="tag">${safe(m['Disc Type']||'Format inconnu')}</span><span class="region" title="${safe(val(m,'Region Codes')?'Code déclaré dans My Movies ou corrigé manuellement':'Zone ou région non renseignée')}">${safe(regionLabel(m))}</span></span></button>`).join('')||'<p class="empty">Aucun film trouvé.</p>';queuePosters();}
+try{const saved=localStorage.getItem('cinematheque-view');if(['list','posters'].includes(saved))view=saved;}catch(e){}function render(){let q=normalize($('q').value.trim()),f=$('format').value,searchField=$('searchfield').value;const searchText=m=>searchField==='title'?[m.Title,m['Original Title']]:searchField==='director'?[m.Director]:searchField==='actors'?[m.Actors]:searchField==='studio'?[m.Studios,m['Production Companies']]:[m.Title,m['Original Title'],m.Director,m.Genres,m['Production Year'],m.Actors,m.Studios,m['Production Companies']];visible=movies.filter(m=>(!f||(f==='none'?!m['Disc Type']:m['Disc Type']===f))&&(!q||normalize(searchText(m).filter(Boolean).join(' ')).includes(q)));let sort=$('sort').value;visible.sort((a,b)=>sort==='title'?(a.Title||'').localeCompare(b.Title||'','fr'):sort==='yearDesc'?(+b['Production Year']||0)-(+a['Production Year']||0):(+(a['Production Year'])||9999)-(+(b['Production Year'])||9999));$('count').textContent=visible.length.toLocaleString('fr-CA')+' entrée(s) sur '+movies.length.toLocaleString('fr-CA');$('grid').className='grid '+view;$('viewnote').textContent=view==='posters'?'Affiches réelles si TMDB est activé ; sinon emplacements réservés.':'Affichage compact de toute la collection.';$('grid').innerHTML=visible.map(m=>`<button class="movie" data-id="${safe(uid(m))}"><span class="poster ${posterUrl(m)?'has-image':''}" data-imdb="${safe(m['IMDB Id']||'')}" data-edition="${photoPreferred(m)?'yes':'no'}" data-custom="${edits[uid(m)]?.cover?'yes':'no'}">${posterUrl(m)?`<img loading="lazy" alt="Affiche de ${safe(m.Title)}" src="${safe(posterUrl(m))}">`:''}<span class="fallback" aria-hidden="true">🎬</span></span><strong>${safe(m.Title)}</strong><small class="year">${safe(m['Production Year']||'Année inconnue')}</small><small class="director">${safe(m.Director||'')}</small><span class="badges"><span class="tag">${safe(m['Disc Type']||'Format inconnu')}</span><span class="region" title="${safe(val(m,'Region Codes')?'Code déclaré dans My Movies ou corrigé manuellement':'Zone ou région non renseignée')}">${safe(regionLabel(m))}</span></span></button>`).join('')||'<p class="empty">Aucun film trouvé.</p>';queuePosters();}
 function field(label,v){return v?`<p><b>${safe(label)} :</b> ${safe(v)}</p>`:''}
 function show(m){currentMovie=m;$('content').innerHTML=`${posterUrl(m)?`<img class="detail-poster" src="${safe(posterUrl(m))}" alt="Affiche">`:''}<h2>${safe(m.Title)}</h2><div class="details">${field('Année',m['Production Year'])}${regionDetail(m)}<h3 class="detail-section-title">Pistes audio / doublages</h3>${audioDetail(m)}${field('Sous-titres',val(m,'Subtitles'))}${field('Réalisateur',m.Director)}${field('Genres',m.Genres)}${field('Acteurs',m.Actors)}${field('Édition / Collection',val(m,'Edition'))}${field('Code-barres',m.Barcode)}${field('IMDb',m['IMDB Id'])}${field('Emplacement',m.Location)}${field('Notes',m.Notes)}${field('Description',m.Description)}</div><div class="edit-actions"><button id="editButton" type="button">✏️ Modifier la zone, les langues ou l’affiche</button></div><div id="editSlot"></div><p class="custom-note">Les modifications sont enregistrées dans Supabase. Une sauvegarde JSON reste recommandée.</p>`;$('editButton').onclick=()=>beginEdit(m);if(!$('detail').open)$('detail').showModal()}
 $('grid').onclick=e=>{let b=e.target.closest('button[data-id]');if(b){let m=movies.find(x=>uid(x)===b.dataset.id);if(m)show(m)}};
@@ -61,6 +64,43 @@ const KEY='sb_publishable_p5Kda4QThH79Yu48Lqft6w_tKDQ89hx';
 const $c=id=>document.getElementById(id);
 let client=null, cloudUser=null, selected=null, records=new Map(), syncTimers=new Map(), isLoading=false;
 const status=message=>{$c('saveStatus').textContent=message};
+// Photos privées: le JSON ne conserve que le chemin, jamais les URL signées temporaires.
+const PHOTO_BUCKET='editions-photos';
+const photoUrls=new Map();
+async function signedPhoto(path){
+ if(!path||!cloudUser)return '';
+ const cached=photoUrls.get(path);
+ if(cached&&cached.expires>Date.now()+60000)return cached.url;
+ const {data,error}=await client.storage.from(PHOTO_BUCKET).createSignedUrl(path,3600);
+ if(error)throw error;
+ photoUrls.set(path,{url:data.signedUrl,expires:Date.now()+3500000});
+ return data.signedUrl;
+}
+async function loadPhotoUrls(){
+ const paths=[...new Set(movies.flatMap(m=>editionPaths(m)))];
+ await Promise.all(Array.from({length:Math.min(4,paths.length)},async(_,worker)=>{
+  for(let i=worker;i<paths.length;i+=4){try{await signedPhoto(paths[i])}catch(e){console.warn('Photo collector inaccessible',e)}}
+ }));
+}
+function editionPaths(m){return [...new Set([m.edition_photo_path,...(Array.isArray(m.edition_extra_photos)?m.edition_extra_photos:[])].filter(p=>typeof p==='string'&&p))]}
+function photoUrl(m){return m.edition_photo_path?photoUrls.get(m.edition_photo_path)?.url||'':''}
+function photoPreferred(m){return m.card_image_choice==='edition'&&!!photoUrl(m)}
+async function compressEdition(file){
+ if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Choisis une photo JPG, PNG ou WebP.');
+ if(file.size>15*1024*1024)throw Error('Photo trop volumineuse (maximum 15 Mo avant compression).');
+ const object=URL.createObjectURL(file);
+ try{
+  const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('Image illisible.'));img.src=object});
+  const factor=Math.min(1,1200/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.naturalWidth*factor));canvas.height=Math.max(1,Math.round(img.naturalHeight*factor));
+  canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',.82));
+  if(!blob)throw Error('Compression impossible.');
+  if(blob.size>5*1024*1024)throw Error('Photo compressée trop volumineuse.');
+  return blob;
+ }finally{URL.revokeObjectURL(object)}
+}
+
 function fail(e){console.error(e);status('⚠️ '+(e?.message||String(e)))}
 function newId(){return (crypto.randomUUID?crypto.randomUUID():String(Date.now())+'-'+Math.random().toString(36).slice(2))}
 async function loadAll(){
@@ -77,7 +117,7 @@ async function loadAll(){
   movies=all;
   // Toutes les corrections doivent provenir de Supabase, pas d'anciennes données locales.
   edits={};for(const m of movies){if(m.cover)edits[m._uid]={cover:m.cover};}
-  render();status('☁️ '+movies.length.toLocaleString('fr-CA')+' films synchronisés');
+  await loadPhotoUrls();render();status('☁️ '+movies.length.toLocaleString('fr-CA')+' films synchronisés');
  }catch(e){fail(e);alert('Impossible de charger le catalogue : '+e.message)}finally{isLoading=false}
 }
 async function persistFilm(m){
@@ -101,17 +141,137 @@ saveEdits=function(){
  status('☁️ Enregistrement en cours…');
  syncTimers.set(m._uid,setTimeout(async()=>{try{await persistFilm(m);status('☁️ Modification enregistrée dans Supabase')}catch(e){fail(e);alert('Modification NON synchronisée : '+e.message)}},250));
 };
-cover=function(m){return edits[uid(m)]?.cover||m.cover||posterCache[m['IMDB Id']]?.url||''};
-// Le formulaire d'édition V1.9 reste disponible; ajout de l'édition complète et de la suppression.
+cover=function(m){return photoPreferred(m)?photoUrl(m):(edits[uid(m)]?.cover||m.cover||posterCache[m['IMDB Id']]?.url||'')};
+// V2.2 : édition unifiée, enregistrement atomique après validation Supabase.
 const oldShow=show;
-show=function(m){oldShow(m);const c=$c('content');const bar=document.createElement('div');bar.className='edit-actions';bar.innerHTML='<button type="button" id="editMore">📝 Modifier les autres informations</button><button type="button" id="deleteFilm">🗑 Supprimer ce film</button>';c.appendChild(bar);
- $c('editMore').onclick=()=>{
-  const fields=[['Title','Titre'],['Production Year','Année'],['Director','Réalisateur'],['Actors','Acteurs'],['Genres','Genres'],['Description','Résumé'],['Disc Type','Format (DVD, Blu-ray, 4K Ultra HD)'],['Barcode','Code-barres'],['Edition','Édition / Collection'],['Subtitles','Sous-titres (séparés par ;)'],['Location','Emplacement'],['Notes','Notes']];
-  const html=fields.map(([key,label])=>'<label style="display:block;margin:10px 0">'+safe(label)+'<input data-film-field="'+safe(key)+'" style="width:100%" value="'+safe(m[key]||'')+'"></label>').join('');
-  $c('editSlot').innerHTML='<div class="editbox"><h3>Informations du film</h3>'+html+'<button type="button" id="saveAllFields">💾 Enregistrer</button></div>';
-  $c('saveAllFields').onclick=async()=>{for(const el of $c('editSlot').querySelectorAll('[data-film-field]'))m[el.dataset.filmField]=el.value.trim();try{await persistFilm(m);status('☁️ Film modifié');show(m);render()}catch(e){fail(e);alert(e.message)}};
+const editFields=[
+ ['Title','Titre'],['Original Title','Titre original'],['Production Year','Année'],
+ ['Disc Type','Format'],['Region Codes','Zone / région'],['Audio Tracks','Pistes audio'],
+ ['Subtitles','Sous-titres'],['Edition','Édition / Collection'],
+ ['Director','Réalisateur'],['Actors','Acteurs / Actrices'],['Genres','Genres'],
+ ['Description','Résumé'],['Barcode','Code-barres'],['Location','Emplacement'],['Notes','Notes']
+];
+function unifiedEditor(m){
+ const slot=$c('editSlot');
+ const controls=editFields.map(([key,label])=>{
+  const value=safe(m[key]??'');
+  const control=key==='Disc Type'?'<select data-film-field="Disc Type"><option value="">Non renseigné</option>'+['DVD','Blu-ray','4K Ultra HD'].map(x=>'<option value="'+x+'" '+(m[key]===x?'selected':'')+'>'+x+'</option>').join('')+'</select>':
+  ['Audio Tracks','Subtitles','Description','Notes'].includes(key)?'<textarea data-film-field="'+safe(key)+'">'+value+'</textarea>':
+  '<input data-film-field="'+safe(key)+'" value="'+value+'">';
+  return '<label>'+safe(label)+'</label>'+control;
+ }).join('');
+ slot.innerHTML='<div class="editbox"><h3>✏️ Modifier les informations du film</h3>'+controls+
+ '<label>Affiche personnalisée (facultatif)</label><div class="edit-actions"><button type="button" id="v22CoverFile">📁 Choisir une image</button><button type="button" id="v22CoverUrl">🔗 Coller une URL</button><button type="button" id="v22CoverReset">↩ Revenir à TMDB</button></div><p class="custom-note" id="v22CoverStatus">'+(m.cover?'Affiche personnalisée actuelle conservée.':'Affiche TMDB conservée.')+'</p>'+
+ '<div class="editbox"><h3>📦 Photos de mon édition physique</h3><p class="custom-note">La photo principale peut apparaître en vignette. Les photos supplémentaires (verso, livret…) restent dans la galerie.</p><div class="edit-actions"><button type="button" id="v22EditionPick">📷 Choisir la photo principale</button><button type="button" id="v22EditionRemove">Retirer la photo principale</button></div><input id="v22EditionFile" type="file" accept="image/jpeg,image/png,image/webp" hidden><p class="custom-note" id="v22EditionStatus"></p><div class="edit-actions"><button type="button" id="v22ExtraPick">➕ Ajouter des photos à la galerie</button></div><input id="v22ExtraFile" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden><div id="v22ExtraList" class="custom-note"></div><label>Image à afficher dans ma collection</label><select id="v22CardChoice"><option value="poster">Affiche du film (par défaut)</option><option value="edition">Photo de mon édition</option></select></div>'+
+ '<div class="edit-actions"><button type="button" id="v22Save">💾 Enregistrer</button><button type="button" id="v22Cancel">Annuler</button></div></div>';
+ let pendingCover=m.cover||'',coverChanged=false;
+ let editionFile=null,removeEdition=false;
+ let extraFiles=[],extraPaths=[...(Array.isArray(m.edition_extra_photos)?m.edition_extra_photos:[])];
+ const extraList=$c('v22ExtraList');
+ function drawExtras(){
+  extraList.innerHTML='<p>Photos supplémentaires : '+(extraPaths.length+extraFiles.length)+'</p>';
+  extraPaths.forEach((path,i)=>{const line=document.createElement('div');line.className='edit-actions';const thumb=document.createElement('img');thumb.src=photoUrls.get(path)?.url||'';thumb.alt='Photo supplémentaire '+(i+1);thumb.style.cssText='width:65px;height:65px;object-fit:contain;border-radius:7px';const b=document.createElement('button');b.type='button';b.textContent='Retirer cette photo';b.onclick=()=>{extraPaths.splice(i,1);drawExtras()};line.append(thumb,b);extraList.appendChild(line)});
+  extraFiles.forEach((file,i)=>{const line=document.createElement('div');line.className='edit-actions';const name=document.createElement('span');name.textContent='À ajouter : '+file.name;const b=document.createElement('button');b.type='button';b.textContent='Annuler';b.onclick=()=>{extraFiles.splice(i,1);drawExtras()};line.append(name,b);extraList.appendChild(line)});
+ }
+ $c('v22ExtraPick').onclick=()=>$c('v22ExtraFile').click();
+ $c('v22ExtraFile').onchange=e=>{const files=[...e.target.files];if(files.some(f=>!['image/jpeg','image/png','image/webp'].includes(f.type))){alert('Choisis des images JPG, PNG ou WebP.');return}extraFiles.push(...files);e.target.value='';drawExtras()};
+ drawExtras();
+ const editionStatus=$c('v22EditionStatus');
+ const editionChoice=$c('v22CardChoice');
+ editionChoice.value=m.card_image_choice==='edition'?'edition':'poster';
+ editionStatus.textContent=m.edition_photo_path?'Photo collector actuelle conservée.':'Aucune photo collector pour ce film.';
+ $c('v22EditionPick').onclick=()=>$c('v22EditionFile').click();
+ $c('v22EditionFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;
+  if(!['image/jpeg','image/png','image/webp'].includes(f.type)){alert('Choisis un JPG, PNG ou WebP.');return}
+  editionFile=f;removeEdition=false;editionStatus.textContent='Photo sélectionnée : '+f.name+' (sera envoyée à l’enregistrement).';
+  e.target.value='';
  };
- $c('deleteFilm').onclick=async()=>{if(!confirm('Supprimer définitivement « '+m.Title+' » de ta cinémathèque Supabase ?'))return;try{const id=records.get(m._uid);const {error}=await client.from('films').delete().eq('id',id).eq('user_id',cloudUser.id);if(error)throw error;records.delete(m._uid);movies=movies.filter(x=>x._uid!==m._uid);delete edits[m._uid];$c('detail').close();render();status('☁️ Film supprimé')}catch(e){fail(e);alert(e.message)}};
+ $c('v22EditionRemove').onclick=()=>{editionFile=null;removeEdition=true;editionChoice.value='poster';editionStatus.textContent='Suppression de la photo prévue à l’enregistrement.'};
+
+ const coverStatus=$c('v22CoverStatus');
+ $c('v22CoverFile').onclick=()=>$c('coverFile').click();
+ $c('coverFile').onchange=async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  if(!file.type.startsWith('image/')){alert('Choisis une image compatible.');return}
+  const blob=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{try{const scale=Math.min(1,650/img.width),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);pendingCover=canvas.toDataURL('image/jpeg',.76);coverChanged=true;coverStatus.textContent='Nouvelle image prête (non enregistrée).'}finally{URL.revokeObjectURL(blob)}};
+  img.onerror=()=>{URL.revokeObjectURL(blob);alert('Image illisible : essaie un JPG ou PNG.')};img.src=blob;e.target.value='';
+ };
+ $c('v22CoverUrl').onclick=()=>{const url=prompt('URL HTTPS directe de l’image :',pendingCover.startsWith('https://')?pendingCover:'');if(url===null)return;if(!/^https:\/\//i.test(url)){alert('Adresse HTTPS requise.');return}pendingCover=url;coverChanged=true;coverStatus.textContent='Nouvelle URL prête (non enregistrée).'};
+ $c('v22CoverReset').onclick=()=>{pendingCover='';coverChanged=true;coverStatus.textContent='Retour à TMDB prêt (non enregistré).'};
+ $c('v22Cancel').onclick=()=>show(m);
+ $c('v22Save').onclick=async()=>{
+  const button=$c('v22Save');button.disabled=true;
+  const draft={...m};
+  for(const el of slot.querySelectorAll('[data-film-field]'))draft[el.dataset.filmField]=el.value.trim();
+  if(coverChanged){if(pendingCover)draft.cover=pendingCover;else delete draft.cover;}
+  if(editionChoice.value==='edition'&&!editionFile&&(!draft.edition_photo_path||removeEdition)){alert('Ajoute une photo collector avant de la choisir pour la collection.');button.disabled=false;return}
+  draft.card_image_choice=editionChoice.value;
+  const previousPath=m.edition_photo_path||'';
+  let uploadedPath='';let uploadedExtras=[];
+  const removedExtras=(Array.isArray(m.edition_extra_photos)?m.edition_extra_photos:[]).filter(p=>!extraPaths.includes(p));
+
+  try{
+   if(editionFile){
+    status('☁️ Compression et envoi de la photo collector…');
+    const blob=await compressEdition(editionFile);
+    // Nouveau nom à chaque remplacement : pas de cache obsolète ni de fichier écrasé.
+    uploadedPath=cloudUser.id+'/'+m._uid.replace(/[^a-zA-Z0-9_-]/g,'_')+'-'+newId()+'.webp';
+    const {error}=await client.storage.from(PHOTO_BUCKET).upload(uploadedPath,blob,{contentType:'image/webp',upsert:false});
+    if(error)throw error;
+    draft.edition_photo_path=uploadedPath;
+   }else if(removeEdition){delete draft.edition_photo_path;draft.card_image_choice='poster'}
+   for(const file of extraFiles){
+    status('☁️ Envoi des photos supplémentaires…');
+    const blob=await compressEdition(file);
+    const path=cloudUser.id+'/'+m._uid.replace(/[^a-zA-Z0-9_-]/g,'_')+'-'+newId()+'.webp';
+    const {error}=await client.storage.from(PHOTO_BUCKET).upload(path,blob,{contentType:'image/webp',upsert:false});
+    if(error)throw error;
+    uploadedExtras.push(path);
+   }
+   draft.edition_extra_photos=[...extraPaths,...uploadedExtras];
+   await persistFilm(draft);
+   for(const path of [uploadedPath,...uploadedExtras].filter(Boolean)){try{await signedPhoto(path)}catch(e){console.warn('Photo enregistrée, URL temporaire indisponible',e)}}
+
+   Object.keys(m).forEach(k=>{if(!(k in draft))delete m[k]});Object.assign(m,draft);
+   if(coverChanged){if(draft.cover)edits[m._uid]={...(edits[m._uid]||{}),cover:draft.cover};else if(edits[m._uid])delete edits[m._uid].cover;}
+   if(previousPath&&(removeEdition||uploadedPath)){
+    client.storage.from(PHOTO_BUCKET).remove([previousPath]).then(({error})=>{if(error)console.warn('Ancienne photo non supprimée',error)});
+    photoUrls.delete(previousPath);
+   }
+   if(removedExtras.length){client.storage.from(PHOTO_BUCKET).remove(removedExtras).then(({error})=>{if(error)console.warn('Photos non supprimées',error)});removedExtras.forEach(p=>photoUrls.delete(p))}
+   status('☁️ Modifications enregistrées');render();$c('detail').close();
+  }catch(e){
+   if(uploadedPath||uploadedExtras.length){await client.storage.from(PHOTO_BUCKET).remove([uploadedPath,...uploadedExtras].filter(Boolean)).catch(()=>{});[uploadedPath,...uploadedExtras].forEach(p=>photoUrls.delete(p))}
+   fail(e);alert('Modifications non enregistrées : '+e.message);button.disabled=false;
+  }
+ };
+}
+show=function(m){
+ oldShow(m);
+ const paths=editionPaths(m),images=paths.map(p=>photoUrls.get(p)?.url||'').filter(Boolean);
+ if(images.length){
+  const details=$c('content').querySelector('.details');
+  if(details){
+   const section=document.createElement('section');section.className='edition-photo-detail';
+   section.innerHTML='<h3>📦 Mon édition physique</h3><div class="edition-gallery"><div class="edition-gallery-stage"><button type="button" class="gallery-prev" aria-label="Photo précédente">❮</button><img loading="lazy" alt="Photo de mon édition" class="gallery-image"><button type="button" class="gallery-next" aria-label="Photo suivante">❯</button></div><p class="gallery-count custom-note"></p><div class="gallery-thumbs"></div></div><p class="custom-note">Image de la collection : '+(m.card_image_choice==='edition'?'photo principale de l’édition':'affiche du film')+'</p>';
+   details.appendChild(section);
+   let active=0;const main=section.querySelector('.gallery-image'),count=section.querySelector('.gallery-count'),thumbs=section.querySelector('.gallery-thumbs');
+   function selectImage(i){active=(i+images.length)%images.length;main.src=images[active];main.alt='Photo '+(active+1)+' de '+images.length+' de mon édition';count.textContent='Photo '+(active+1)+' / '+images.length+(active===0?' · Principale':' · Supplémentaire');[...thumbs.children].forEach((b,j)=>b.setAttribute('aria-pressed',String(j===active)))}
+   images.forEach((src,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Voir la photo '+(i+1));const img=document.createElement('img');img.src=src;img.loading='lazy';img.alt='';b.appendChild(img);b.onclick=()=>selectImage(i);thumbs.appendChild(b)});
+   section.querySelector('.gallery-prev').onclick=()=>selectImage(active-1);
+   section.querySelector('.gallery-next').onclick=()=>selectImage(active+1);
+   if(images.length===1){section.querySelector('.gallery-prev').hidden=true;section.querySelector('.gallery-next').hidden=true;thumbs.hidden=true}
+   selectImage(0);
+  }
+  if(photoPreferred(m)){
+   const poster=m.cover||posterCache[m['IMDB Id']]?.url||'';
+   if(poster){const pic=$c('content').querySelector('.detail-poster');if(pic)pic.src=poster;}
+  }
+ }
+ const editButton=$c('editButton');if(editButton){editButton.textContent='✏️ Modifier les informations du film';editButton.onclick=()=>unifiedEditor(m)}
+ const bar=document.createElement('div');bar.className='edit-actions';bar.innerHTML='<button type="button" id="deleteFilm">🗑 Supprimer ce film</button>';$c('content').appendChild(bar);
+ $c('deleteFilm').onclick=async()=>{if(!confirm('Supprimer définitivement « '+m.Title+' » de ta cinémathèque Supabase ?'))return;try{const id=records.get(m._uid);const {error}=await client.from('films').delete().eq('id',id).eq('user_id',cloudUser.id);if(error)throw error;records.delete(m._uid);if(editionPaths(m).length){client.storage.from(PHOTO_BUCKET).remove(editionPaths(m)).then(({error})=>{if(error)console.warn(error)});editionPaths(m).forEach(p=>photoUrls.delete(p))}movies=movies.filter(x=>x._uid!==m._uid);delete edits[m._uid];$c('detail').close();render();status('☁️ Film supprimé')}catch(e){fail(e);alert(e.message)}};
 };
 function toolbar(){const bar=document.createElement('div');bar.className='cloudbar';bar.innerHTML='<button type="button" class="primary" id="cloudAdd">➕ Ajouter un film</button><button type="button" id="cloudRefresh">↻ Synchroniser</button><button type="button" id="cloudLogout">Déconnexion</button><small id="cloudIdentity"></small>';document.querySelector('.toolbar').before(bar);
  $c('cloudAdd').onclick=()=>{selected=null;$c('addQuery').value='';$c('addHits').innerHTML='';$c('addStatus').textContent='';$c('addSelected').hidden=true;for(const id of ['addFormat','addRegion','addAudio','addBarcode','addEdition','addSubtitles'])$c(id).value='';$c('addDialog').showModal()};
@@ -153,6 +313,7 @@ async function start(){toolbar();document.querySelector('.backupbar #importCatal
  }catch(e){$c('loginStatus').textContent=e.message}
 }
 async function signedIn(user){cloudUser=user;$c('cloudPassword').value='';$c('cloudGate').hidden=true;$c('cloudIdentity').textContent=user.email||'';await loadAll()}
+window.kyanshuPhotoUrl=photoUrl;
 start();
 })();
 </script></body></html>
